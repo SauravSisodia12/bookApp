@@ -9,5 +9,6 @@ public interface BookService {
 
 	void addBook(Book book);
     List<Book> getBookByAuthor(String author) throws BookNotFoundException;
+    List<Book> getBookById(int bookId) throws BookNotFoundException;
     List<Book> getAllBooks();
 }

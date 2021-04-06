@@ -2,6 +2,8 @@ package com.bookapp.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.bookapp.exceptions.BookNotFoundException;
 import com.bookapp.model.Book;
 
@@ -17,12 +19,11 @@ public class BookServiceImple implements BookService {
 
 	@Override
 	public List<Book> getBookByAuthor(String author) throws BookNotFoundException {
-		 ArrayList<Book> bookListByAuthor = new ArrayList<>();
-		for(Book book:bookList) {
-			if(book.getAuthor().equalsIgnoreCase(author))
-			bookListByAuthor.add(book);
-		}
-		
+
+		List<Book> bookListByAuthor = bookList.stream()
+				.filter(t -> t.getAuthor().equals(author))
+				.collect(Collectors.toList());	
+
 		if(!bookListByAuthor.isEmpty())
 		return bookListByAuthor;
 		else
@@ -33,6 +34,26 @@ public class BookServiceImple implements BookService {
 	public List<Book> getAllBooks() {
 		// TODO Auto-generated method stub
 		return bookList;
+	}
+
+	@Override
+	public List<Book> getBookById(int bookId) throws BookNotFoundException {
+		
+		List<Book> bookListById = bookList.stream()
+		.filter(t -> t.getBookId()==bookId)
+		.collect(Collectors.toList());	
+
+		System.out.println();
+		
+//		for(Book book:bookList) {
+//			if(book.getBookId()==bookId)
+//			bookListById.add(book);
+//		}
+//		
+		if(!bookListById.isEmpty())
+		return bookListById;
+		else
+		throw new BookNotFoundException("Book Not Found");
 	}
 
 }
